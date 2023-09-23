@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location</title>
+</head>
+
+<body>
+    <button id="gomb">Click me!</button>
+</body>
+
+</html>
+
+<style>
+    #gomb {
+        width: 200px;
+        height: 80px;
+        margin-top: 200px;
+        margin-left: 200px;
+        color: black;
+        border: 1px solid purple;
+        background-color: purple;
+        border-radius: 10px;
+        font-size: larger;
+        font-weight: bolder;
+    }
+</style>
+
+<script>
+const button = document.getElementById("gomb");
+button.addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+        fetch(url).then(res => res.json()).then(data => {
+            console.table(data.address)
+        }).catch(() => {
+            console.log('Error!')
+        })
+    })
+})
+</script>
